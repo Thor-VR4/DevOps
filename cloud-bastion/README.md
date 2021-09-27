@@ -10,6 +10,7 @@
 ## IP адресация
 
 bastion_IP = 62.84.118.249
+
 someinternalhost_IP = 10.128.0.19
 
 <a id="chapter-1"></a>
