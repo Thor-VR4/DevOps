@@ -53,4 +53,5 @@ testapp_port = 9292
 - install_ruby.sh (установка ruby)
 - install_mongodb.sh (установка mongobd)
 - deploy.sh (развёртывание приложения и сервера puma)
+
 Так же создан скрипт startup.sh для автоматического создания инстанса в YC и развёртывания приложения на нём.
