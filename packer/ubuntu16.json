@@ -10,8 +10,7 @@
             "ssh_username": "ubuntu",
             "platform_id": "standard-v1",
             "subnet_id": "e9binldg2djbcg5r2uab",
-            "use_ipv4_nat": true,
-	    "skip_create_image": "{{user `skip`}}"
+            "use_ipv4_nat": true
         }
     ],
     "provisioners": [
