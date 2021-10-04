@@ -20,7 +20,7 @@
               "scripts/install_ruby.sh",
               "scripts/install_mongodb.sh"
 	    ],
-            "pause_before": "10s",
+            "max_retries": 2,
             "execute_command": "sudo {{.Path}}"
         }
     ]
