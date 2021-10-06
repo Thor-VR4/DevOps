@@ -29,3 +29,12 @@ variable ssh_key_path {
 variable app_servers_count {
   description = "How many instances we need"
 }
+variable network_id {
+  description = "Default network"
+}
+variable app_disk_image {
+  description = "App disk image"
+}
+variable db_disk_image {
+  description = "DB disk image"
+}
