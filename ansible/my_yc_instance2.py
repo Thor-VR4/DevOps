@@ -49,7 +49,7 @@ class MyInventory(object):
 
     def populate(self):
         '''Populate inventory with given instances'''
-        cmd2 = "(cd ../terraform/stage/ && terraform output -json)"
+        cmd2 = "(cd ../terraform/stage/ && terraform init && terraform output -json)"
         output = subprocess.run(cmd2, stdout=subprocess.PIPE, shell=True)
         if re.match(r'{', output.stdout.decode('utf-8')):
             yc_obj = json.loads(output.stdout.decode('utf-8'))
