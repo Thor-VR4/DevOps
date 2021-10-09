@@ -3,6 +3,9 @@
 import json
 import subprocess
 import argparse
+import re
+
+backup_file="inventory.json"
 
 class MyInventory(object):
 
@@ -33,16 +36,35 @@ class MyInventory(object):
         parser.add_argument('--host', action = 'store')
         self.args = parser.parse_args()
 
+    def from_file(self, group):
+        with open(backup_file, 'r') as f:
+            file_content = json.load(f)
+            f.close()
+        if group=="app":
+            file_app = file_content.get('app',()).get('hosts',()).get('appserver',()).get('ansible_host',())
+            return {file_app}
+        if group=="db":
+            file_db = file_content.get('db',()).get('hosts',()).get('dbserver',()).get('ansible_host',())
+            return {file_db}
+
     def populate(self):
         '''Populate inventory with given instances'''
         cmd2 = "(cd ../terraform/stage/ && terraform output -json)"
-        with open('myfile.tmp', "w") as outfile:
-            output = subprocess.run(cmd2, stdout=outfile, shell=True)
-        #yc_obj = json.load(output.stdout.decode('ascii'))
-        with open('myfile.tmp', "r") as infile:
-            yc_obj = json.load(infile)
-        ip_db = yc_obj.get ('external_ip_address_db',()).get ('value',())
-        ip_app = yc_obj.get ('external_ip_address_app',()).get ('value',())
+        output = subprocess.run(cmd2, stdout=subprocess.PIPE, shell=True)
+        if re.match(r'{', output.stdout.decode('utf-8')):
+            yc_obj = json.loads(output.stdout.decode('utf-8'))
+            if 'external_ip_address_db' in yc_obj:
+                ip_db = yc_obj.get ('external_ip_address_db',()).get ('value',())
+            else:
+                ip_db = list(self.from_file("db"))
+            if 'external_ip_address_app' in yc_obj:
+                ip_app = yc_obj.get ('external_ip_address_app',()).get ('value',())
+            else:
+                ip_app = list(self.from_file("app"))
+        else:
+            ip_db = list(self.from_file("db"))
+            ip_app = list(self.from_file("app"))
+
         return {
             'app': {
                 'hosts': ip_app,
@@ -58,6 +80,8 @@ class MyInventory(object):
 
     def empty_inventory(self):
         return {'_meta': {'hostvars': {}}}
+
+
 
 
 
