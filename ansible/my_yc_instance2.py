@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+from os import devnull
 import subprocess
 import argparse
 import re
@@ -49,8 +50,8 @@ class MyInventory(object):
 
     def populate(self):
         '''Populate inventory with given instances'''
-        cmd2 = "(cd ../terraform/stage/ && terraform init -backend=false && terraform output -json)"
-        output = subprocess.run(cmd2, stdout=subprocess.PIPE, shell=True)
+        cmd2 = "(cd ../terraform/stage/ && terraform output -json)"
+        output = subprocess.run(cmd2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, check=False)
         if re.match(r'{', output.stdout.decode('utf-8')):
             yc_obj = json.loads(output.stdout.decode('utf-8'))
             if 'external_ip_address_db' in yc_obj:
@@ -80,10 +81,6 @@ class MyInventory(object):
 
     def empty_inventory(self):
         return {'_meta': {'hostvars': {}}}
-
-
-
-
 
 # Get the inventory.
 MyInventory()
