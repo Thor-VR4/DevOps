@@ -37,7 +37,7 @@ class MyInventory(object):
         '''Populate inventory with given instances'''
         cmd2 = "(cd ../terraform/stage/ && terraform output -json)"
         output = subprocess.run(cmd2, stdout=subprocess.PIPE, shell=True)
-        yc_obj = json.loads(output.stdout.decode('utf-8'))
+        yc_obj = json.loads(output.stdout.decode('ascii'))
         ip_db = yc_obj.get ('external_ip_address_db',()).get ('value',())
         ip_app = yc_obj.get ('external_ip_address_app',()).get ('value',())
         return {
