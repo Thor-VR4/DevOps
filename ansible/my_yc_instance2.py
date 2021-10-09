@@ -3,6 +3,7 @@
 import json
 import subprocess
 import argparse
+import re
 
 class MyInventory(object):
 
@@ -35,27 +36,11 @@ class MyInventory(object):
 
     def populate(self):
         '''Populate inventory with given instances'''
-        cmd = ["yc", "compute", "instance", "list", "--format", "json"]
-        output = subprocess.run(cmd, stdout=subprocess.PIPE)
+        cmd2 = "(cd ../terraform/stage/ && terraform output -json)"
+        output = subprocess.run(cmd2, stdout=subprocess.PIPE, shell=True)
         yc_obj = json.loads(output.stdout)
-        hostname = []
-        ip_app = []
-        ip_db = []
-        for instance in yc_obj:
-            hostname.append(instance.get('name'))
-            if "app" in instance.get('name'):
-                ip_app.append(instance
-                    .get('network_interfaces', [{}])[0]
-                    .get('primary_v4_address', {})
-                    .get('one_to_one_nat', {})
-                    .get('address'))
-            elif "db" in instance.get('name'):
-                ip_db.append(instance
-                    .get('network_interfaces', [{}])[0]
-                    .get('primary_v4_address', {})
-                    .get('one_to_one_nat', {})
-                    .get('address'))
-
+        ip_db = yc_obj.get ('external_ip_address_db',()).get ('value',())
+        ip_app = yc_obj.get ('external_ip_address_app',()).get ('value',())
         return {
             'app': {
                 'hosts': ip_app,
