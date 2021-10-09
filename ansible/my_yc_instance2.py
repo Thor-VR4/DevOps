@@ -39,18 +39,29 @@ class MyInventory(object):
         output = subprocess.run(cmd, stdout=subprocess.PIPE)
         yc_obj = json.loads(output.stdout)
         hostname = []
-        ip = []
+        ip_app = []
+        ip_db = []
         for instance in yc_obj:
             hostname.append(instance.get('name'))
-            ip.append(instance
-                .get('network_interfaces', [{}])[0]
-                .get('primary_v4_address', {})
-                .get('one_to_one_nat', {})
-                .get('address'))
+            if "app" in instance.get('name'):
+                ip_app.append(instance
+                    .get('network_interfaces', [{}])[0]
+                    .get('primary_v4_address', {})
+                    .get('one_to_one_nat', {})
+                    .get('address'))
+            elif "db" in instance.get('name'):
+                ip_db.append(instance
+                    .get('network_interfaces', [{}])[0]
+                    .get('primary_v4_address', {})
+                    .get('one_to_one_nat', {})
+                    .get('address'))
 
         return {
-                'yc_infra': {
-                    'hosts': ip,
+            'app': {
+                'hosts': ip_app,
+            },
+            'db': {
+                'hosts': ip_db,
             },
             '_meta': {
                 'hostvars': {
