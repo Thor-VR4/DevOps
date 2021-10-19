@@ -15,3 +15,7 @@
 ## Dynamic inventory
 
 Был создан dynamic invenory c помощью плагина для YC.
+
+![example branch parameter](https://github.com/Thor-VR4/DevOps/actions/workflows/ansible_lint.yml/badge.svg?branch=ansible-3)
+![example branch parameter](https://github.com/Thor-VR4/DevOps/actions/workflows/packer_validate.yml/badge.svg?branch=ansible-3)
+![example branch parameter](https://github.com/Thor-VR4/DevOps/actions/workflows/terraform.yml/badge.svg?branch=ansible-3)
