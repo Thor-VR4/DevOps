@@ -2,8 +2,7 @@
 
 name: Terraform validate
 
-on:
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   terraform:
