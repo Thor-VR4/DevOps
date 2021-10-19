@@ -14,3 +14,7 @@ jobs:
       uses: ansible/ansible-lint-action@master
       with:
         targets: "./ansible/playbooks/*.yml"
+        override-deps: |
+          ansible==2.11.5
+          ansible-lint==5.2.0
+        args: "-c ./ansible/.ansible-lint"
