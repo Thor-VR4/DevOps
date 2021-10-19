@@ -24,12 +24,22 @@ jobs:
       with:
         terraform_version: 0.12.31
 
-    - name: Terraform Init
+    - name: Terraform Init Stage
       id: init
       run: terraform init -backend=false
       working-directory: ./terraform/stage
 
-    - name: Terraform Validate
+    - name: Terraform Validate Stage
       id: validate
       run: terraform validate -var-file=terraform.tfvars.example
       working-directory: ./terraform/stage
+
+    - name: Terraform Init Prod
+      id: init
+      run: terraform init -backend=false
+      working-directory: ./terraform/prod
+
+    - name: Terraform Validate Prod
+      id: validate
+      run: terraform validate -var-file=terraform.tfvars.example
+      working-directory: ./terraform/prod
