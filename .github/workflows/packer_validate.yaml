@@ -28,7 +28,7 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: validate
-          arguments: -syntax-only -var-file=variables.json.example
+          arguments: -syntax-only -var-file=packer/variables.json.example
           target: packer/*.json
 
       # additional steps to process artifacts
