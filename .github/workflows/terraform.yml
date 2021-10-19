@@ -11,10 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     name: terraform
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
-    - uses: hashicorp/setup-terraform@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.12.31
+
     - name: Terraform Init
       id: init
       run: terraform init -backend=false
