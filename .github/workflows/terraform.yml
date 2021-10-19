@@ -31,5 +31,5 @@ jobs:
 
     - name: Terraform Validate
       id: validate
-      run: terraform validate
-      working-directory: ./terraform/stage -var-file=terraform.tfvars.example
+      run: terraform validate -var-file=terraform.tfvars.example
+      working-directory: ./terraform/stage
