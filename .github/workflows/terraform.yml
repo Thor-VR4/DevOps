@@ -3,7 +3,6 @@
 name: Terraform validate
 
 on:
-  push:
   pull_request:
 
 jobs:
