@@ -20,6 +20,8 @@ jobs:
         with:
           command: fix
           target: packer/
+        env:
+          PACKER_LOG: 1
 
       # validate templates
       - name: Validate Template
