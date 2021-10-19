@@ -43,3 +43,28 @@ jobs:
       id: validate_prod
       run: terraform validate -var-file=terraform.tfvars.example
       working-directory: ./terraform/prod
+
+  tflint:
+    runs-on: ubuntu-latest
+    name: tflint
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout source code
+
+    - uses: terraform-linters/setup-tflint@v1
+      name: Setup TFLint
+      with:
+        tflint_version: v0.29.0
+
+    - name: Run TFLint on Stage
+      run: tflint --var-file=terraform.tfvars.example
+      working-directory: ./terraform/stage
+
+    - name: Run TFLint on Prod
+      run: tflint --var-file=terraform.tfvars.example
+      working-directory: ./terraform/prod
